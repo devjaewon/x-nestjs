@@ -1,20 +1,18 @@
-import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { EmailService } from './email/email.service';
-import { ConfigService } from './config/config.service';
+import { UsersModule } from './users/users.module';
+import { GlobalModule } from './global/global.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true, // 전체적으로 사용하기 위해
-      envFilePath: `.${process.env.NODE_ENV}.env`,
-    }),
+    {
+      global: true,
+      module: GlobalModule,
+    },
+    UsersModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService, EmailService, ConfigService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
