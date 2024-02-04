@@ -3,12 +3,16 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserInfo } from './UserInfo';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Post()
   async createUser(@Body() dto: CreateUserDTO): Promise<void> {
-    console.log(dto);
+    const { name, email, password } = dto;
+    await this.usersService.createUser(name, email, password);
   }
 
   @Post('/email-verify')
